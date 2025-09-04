@@ -279,3 +279,152 @@ def create_3d_scattering_visualization(scattering_angle=90):
     )
 
     return fig
+
+def create_thomson_scattering_plot():
+    """
+    Classical Thomson scattering angular distribution.
+
+    Returns:
+    Plotly figure object (polar) showing I(θ) ∝ (1 + cos^2 θ)
+    """
+    angles = np.linspace(0, 180, 361)
+    theta_rad = np.radians(angles)
+    intensity = 1 + np.cos(theta_rad) ** 2
+    intensity = intensity / intensity.max()
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatterpolar(
+        r=intensity,
+        theta=angles,
+        mode='lines',
+        name='Normalized intensity',
+        line=dict(color='blue', width=3)
+    ))
+
+    fig.update_layout(
+        title="Thomson Scattering Angular Distribution",
+        polar=dict(
+            radialaxis=dict(title="Normalized I(θ)", range=[0, 1.1]),
+            angularaxis=dict(tickmode="array", tickvals=[0, 30, 60, 90, 120, 150, 180])
+        ),
+        height=500
+    )
+
+    return fig
+
+def create_rayleigh_scattering_plot(energy_keV=60.0, atomic_number=13):
+    """
+    Simplified Rayleigh (coherent) scattering angular distribution.
+    Forward-peaked shape approximated with a Gaussian in angle.
+
+    Parameters:
+    energy_keV: Photon energy in keV
+    atomic_number: Element atomic number Z
+
+    Returns:
+    Plotly figure object
+    """
+    angles = np.linspace(0, 180, 361)
+
+    # Heuristic width parameter: more forward-peaked for higher E and higher Z
+    theta0 = 35.0 * (30.0 / max(energy_keV, 1.0)) * (10.0 / max(atomic_number, 1)) ** (1.0 / 3.0)
+    theta0 = np.clip(theta0, 5.0, 60.0)
+    intensity = np.exp(- (angles / theta0) ** 2)
+    intensity = intensity / intensity.max()
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=angles,
+        y=intensity,
+        mode='lines',
+        name='Normalized intensity',
+        line=dict(color='green', width=3)
+    ))
+
+    fig.update_layout(
+        title=f"Rayleigh (Coherent) Scattering — E={energy_keV:.0f} keV, Z={atomic_number}",
+        xaxis_title="Scattering Angle (°)",
+        yaxis_title="Normalized Intensity",
+        yaxis=dict(range=[0, 1.1]),
+        height=500
+    )
+
+    return fig
+
+def create_triplet_production_plot(max_energy=20.0):
+    """
+    Triplet production threshold and energy sharing (schematic).
+
+    Parameters:
+    max_energy: Upper limit of energy axis in MeV
+
+    Returns:
+    Plotly figure object
+    """
+    threshold = 2.044  # MeV (4 m_e c^2)
+    energies = np.linspace(threshold, max_energy, 300)
+    available = np.clip(energies - threshold, 0, None)
+    per_particle = available / 3.0
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=energies, y=available, mode='lines', name='Available kinetic (total)',
+        line=dict(color='blue', width=3)
+    ))
+    fig.add_trace(go.Scatter(
+        x=energies, y=per_particle, mode='lines', name='Avg KE per lepton (~1/3)',
+        line=dict(color='orange', width=2, dash='dash')
+    ))
+    fig.add_trace(go.Scatter(
+        x=[threshold, threshold], y=[0, (max_energy-threshold)], mode='lines', name='Threshold 2.044 MeV',
+        line=dict(color='red', width=2, dash='dot')
+    ))
+
+    fig.update_layout(
+        title="Triplet Production Energy Budget (schematic)",
+        xaxis_title="Incident Photon Energy (MeV)",
+        yaxis_title="Energy (MeV)",
+        height=500
+    )
+
+    return fig
+
+def create_photodisintegration_plot(max_energy=30.0):
+    """
+    Photodisintegration (photonuclear) cross-section schematic with giant dipole resonance.
+
+    Parameters:
+    max_energy: Upper limit of energy axis in MeV
+
+    Returns:
+    Plotly figure object
+    """
+    energies = np.linspace(0.0, max_energy, 600)
+    threshold = 8.0  # MeV, typical order for many nuclei
+    peak = 15.0
+    width = 5.0
+
+    # Schematic: zero below threshold, gaussian-shaped resonance beyond
+    xs = np.exp(-0.5 * ((energies - peak) / width) ** 2)
+    xs[energies < threshold] = 0.0
+    xs = xs / xs.max() if xs.max() > 0 else xs
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=energies, y=xs, mode='lines', name='Relative cross-section',
+        line=dict(color='purple', width=3)
+    ))
+    fig.add_trace(go.Scatter(
+        x=[threshold, threshold], y=[0, 1.0], mode='lines', name='Threshold ~8 MeV',
+        line=dict(color='red', width=2, dash='dot')
+    ))
+
+    fig.update_layout(
+        title="Photodisintegration Cross-section (schematic)",
+        xaxis_title="Photon Energy (MeV)",
+        yaxis_title="Relative Cross-section",
+        yaxis=dict(range=[0, 1.1]),
+        height=500
+    )
+
+    return fig

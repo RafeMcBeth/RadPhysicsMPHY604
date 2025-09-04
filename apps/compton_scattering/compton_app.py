@@ -60,6 +60,14 @@ def main():
         step=5
     )
 
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("**Related Interactions**")
+    st.sidebar.caption("Explore other photon-atom interactions:")
+    if st.sidebar.button("Thomson (Classical)"):
+        st.session_state['nav_hint'] = 'thomson'
+    if st.sidebar.button("Rayleigh (Coherent)"):
+        st.session_state['nav_hint'] = 'rayleigh'
+
     # Calculate Compton scattering parameters
     result = compton_scattering(incident_energy_mev * 1000, scattering_angle)  # Convert MeV to keV
 

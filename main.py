@@ -17,7 +17,7 @@ st.set_page_config(
 
 def main():
     st.title("⚛️ Radiation Physics Interactive Education")
-    st.markdown("### Graduate Level Photon-Matter Interactions")
+    st.markdown("### Penn Medical Physics Program - Graduate Level Photon-Matter Interactions")
 
     st.markdown("""
     Welcome to an interactive learning experience covering fundamental concepts
@@ -62,6 +62,36 @@ def main():
 
         if st.button("Explore Pair Production", key="pair", use_container_width=True):
             run_app("apps/pair_production/pair_app.py")
+
+    # Additional interactions row
+    st.markdown("---")
+    st.subheader("More Photon-Atom Interactions (for completeness)")
+
+    col4, col5, col6, col7 = st.columns(4)
+
+    with col4:
+        st.markdown("**Thomson Scattering (Classical)**")
+        st.caption("Elastic scattering in low-energy limit")
+        if st.button("Open Thomson", key="thomson", use_container_width=True):
+            run_app("apps/thomson_scattering/thomson_app.py")
+
+    with col5:
+        st.markdown("**Rayleigh Scattering (Coherent)**")
+        st.caption("Elastic with atomic binding; forward-peaked")
+        if st.button("Open Rayleigh", key="rayleigh", use_container_width=True):
+            run_app("apps/rayleigh_scattering/rayleigh_app.py")
+
+    with col6:
+        st.markdown("**Triplet Production**")
+        st.caption("Photon → e⁻e⁺ + atomic e⁻ (≥2.044 MeV)")
+        if st.button("Open Triplet", key="triplet", use_container_width=True):
+            run_app("apps/triplet_production/triplet_app.py")
+
+    with col7:
+        st.markdown("**Photodisintegration**")
+        st.caption("Photonuclear reactions; GDR ~10–20 MeV")
+        if st.button("Open Photodisintegration", key="photo_nuclear", use_container_width=True):
+            run_app("apps/photodisintegration/photo_nuclear_app.py")
 
     # Educational context section
     st.markdown("---")

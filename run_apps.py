@@ -34,6 +34,30 @@ def main():
         }
     }
 
+    # Extend with additional interactions
+    apps.update({
+        "5": {
+            "name": "Thomson Scattering",
+            "file": "apps/thomson_scattering/thomson_app.py",
+            "description": "Classical elastic scattering distribution"
+        },
+        "6": {
+            "name": "Rayleigh Scattering",
+            "file": "apps/rayleigh_scattering/rayleigh_app.py",
+            "description": "Coherent elastic scattering (forward-peaked)"
+        },
+        "7": {
+            "name": "Triplet Production",
+            "file": "apps/triplet_production/triplet_app.py",
+            "description": "Photon → e⁻e⁺ + e⁻ (threshold 2.044 MeV)"
+        },
+        "8": {
+            "name": "Photodisintegration",
+            "file": "apps/photodisintegration/photo_nuclear_app.py",
+            "description": "Photonuclear reactions, giant dipole resonance"
+        }
+    })
+
     while True:
         print("\nAvailable Applications:")
         for key, app in apps.items():
@@ -42,7 +66,7 @@ def main():
 
         print("\n0. Exit")
 
-        choice = input("\nSelect an application to run (0-4): ").strip()
+        choice = input("\nSelect an application to run (0-8): ").strip()
 
         if choice == "0":
             print("Goodbye! 👋")
@@ -63,7 +87,7 @@ def main():
             except Exception as e:
                 print(f"Error running {app['name']}: {e}")
         else:
-            print("Invalid choice. Please select 0-4.")
+            print("Invalid choice. Please select 0-8.")
 
 if __name__ == "__main__":
     main()

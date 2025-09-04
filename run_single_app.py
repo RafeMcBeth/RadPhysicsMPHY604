@@ -15,6 +15,10 @@ def main():
         print("  photoelectric - Photoelectric Effect")
         print("  compton - Compton Scattering")
         print("  pair - Pair Production")
+        print("  thomson - Thomson Scattering")
+        print("  rayleigh - Rayleigh Scattering")
+        print("  triplet - Triplet Production")
+        print("  photodisintegration - Photonuclear")
         print("  main - Main Navigation Page")
         return
 
@@ -24,12 +28,16 @@ def main():
         "photoelectric": "apps/photoelectric/photoelectric_app.py",
         "compton": "apps/compton_scattering/compton_app.py",
         "pair": "apps/pair_production/pair_app.py",
+        "thomson": "apps/thomson_scattering/thomson_app.py",
+        "rayleigh": "apps/rayleigh_scattering/rayleigh_app.py",
+        "triplet": "apps/triplet_production/triplet_app.py",
+        "photodisintegration": "apps/photodisintegration/photo_nuclear_app.py",
         "main": "main.py"
     }
 
     if app_name not in app_paths:
         print(f"Unknown app: {app_name}")
-        print("Available apps: photoelectric, compton, pair, main")
+        print("Available apps: photoelectric, compton, pair, thomson, rayleigh, triplet, photodisintegration, main")
         return
 
     app_path = app_paths[app_name]
