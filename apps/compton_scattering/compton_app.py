@@ -27,6 +27,18 @@ def main():
     st.title("🔄 Compton Scattering")
     st.markdown("*Quantum scattering of photons by electrons*")
 
+    # Navigation back to home
+    col_home, col_spacer = st.columns([1, 4])
+    with col_home:
+        if st.button("🏠 Home", use_container_width=True):
+            st.info("💡 To return to the main navigation:")
+            st.markdown("""
+            **Navigation Options:**
+            - **Quick way**: `uv run python run_single_app.py main`
+            - **Full launcher**: `uv run python run_apps.py`
+            - **Direct**: `uv run streamlit run main.py`
+            """)
+
     # Sidebar controls
     st.sidebar.header("Parameters")
 

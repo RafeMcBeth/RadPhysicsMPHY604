@@ -35,16 +35,32 @@ def wavelength_to_energy(wavelength_m):
     """Convert wavelength (m) to photon energy (keV)"""
     return (PLANCK_CONSTANT * SPEED_OF_LIGHT) / (wavelength_m * JOULES_TO_KEV)
 
-# Common material work functions (eV)
+# Medical physics relevant materials work functions (eV)
+# Includes detector materials, x-ray targets, tissue surrogates, and shielding materials
 WORK_FUNCTIONS = {
-    'Cesium': 2.1,
-    'Potassium': 2.3,
-    'Sodium': 2.28,
-    'Lithium': 2.9,
-    'Zinc': 4.3,
-    'Copper': 4.7,
-    'Silver': 4.26,
-    'Platinum': 6.35
+    # Detector Materials
+    'Sodium Iodide (NaI)': 4.3,      # Common scintillator for gamma cameras
+    'Cesium Iodide (CsI)': 6.2,      # Used in CT detectors and gamma cameras
+    'Cadmium Telluride (CdTe)': 4.3, # Semiconductor detector for SPECT
+    'Silicon (Si)': 4.8,             # Semiconductor detector material
+    'Germanium (Ge)': 4.8,           # High-purity Ge detector for spectroscopy
+
+    # X-ray Tube Target Materials
+    'Tungsten (W)': 4.5,             # Most common x-ray tube target
+    'Molybdenum (Mo)': 4.2,          # Used in mammography tubes
+    'Rhodium (Rh)': 4.8,             # Alternative mammography target
+
+    # Tissue and Phantom Materials
+    'Aluminum (Al)': 4.2,            # Tissue surrogate, beam hardening studies
+    'PMMA (Plastic)': 4.3,           # Common phantom material
+    'Water': 6.5,                    # Reference tissue-equivalent material
+
+    # Shielding and Contrast Materials
+    'Lead (Pb)': 4.1,                # Primary shielding material
+    'Copper (Cu)': 4.7,              # Secondary shielding, collimators
+    'Iodine (I)': 4.6,               # Contrast agent material
+    'Calcium (Ca)': 2.9,             # Bone mineral component
+    'Bismuth (Bi)': 4.3              # Alternative contrast material
 }
 
 # Atomic numbers for common elements

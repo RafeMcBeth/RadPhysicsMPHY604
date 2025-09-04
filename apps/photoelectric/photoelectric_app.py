@@ -24,8 +24,20 @@ def main():
         layout="wide"
     )
 
-    st.title("📸 Photoelectric Effect")
-    st.markdown("*Einstein's quantum theory of light-matter interaction*")
+    st.title("📸 Photoelectric Effect in Medical Physics")
+    st.markdown("*Quantum interactions in radiation detection and imaging*")
+
+    # Navigation back to home
+    col_home, col_spacer = st.columns([1, 4])
+    with col_home:
+        if st.button("🏠 Home", use_container_width=True):
+            st.info("💡 To return to the main navigation:")
+            st.markdown("""
+            **Navigation Options:**
+            - **Quick way**: `uv run python run_single_app.py main`
+            - **Full launcher**: `uv run python run_apps.py`
+            - **Direct**: `uv run streamlit run main.py`
+            """)
 
     # Sidebar controls
     st.sidebar.header("Parameters")
@@ -34,7 +46,7 @@ def main():
     material = st.sidebar.selectbox(
         "Select Material",
         options=list(WORK_FUNCTIONS.keys()),
-        index=list(WORK_FUNCTIONS.keys()).index('Cesium')
+        index=list(WORK_FUNCTIONS.keys()).index('Sodium Iodide (NaI)')
     )
 
     work_function = WORK_FUNCTIONS[material]
@@ -42,10 +54,10 @@ def main():
     # Photon energy controls
     photon_energy_ev = st.sidebar.slider(
         "Photon Energy (eV)",
-        min_value=0.1,
-        max_value=15.0,
-        value=6.0,
-        step=0.1
+        min_value=1.0,
+        max_value=50.0,
+        value=25.0,
+        step=0.5
     )
 
     # Light intensity (for conceptual understanding)
@@ -67,7 +79,7 @@ def main():
         st.subheader("Energy Analysis")
 
         # Create interactive plot
-        fig = create_energy_frequency_plot(work_function, 15.0)
+        fig = create_energy_frequency_plot(work_function, 50.0)
 
         # Add current photon energy marker
         freq_current = photon_energy_ev / (PLANCK_CONSTANT / EV_TO_JOULES) * 1e-14
@@ -165,7 +177,7 @@ def main():
 
     # Educational content
     st.markdown("---")
-    st.subheader("📚 Key Concepts")
+    st.subheader("📚 Key Concepts in Medical Physics")
 
     col3, col4 = st.columns(2)
 
@@ -176,6 +188,11 @@ def main():
         - All photons of frequency ν have energy hν
         - No time lag between absorption and emission
         - Intensity affects rate, not energy per electron
+
+        **Medical Physics Relevance:**
+        - Explains X-ray absorption in detectors and tissues
+        - Basis for energy-dependent attenuation in CT
+        - Key to understanding detector efficiency
         """)
 
     with col4:
@@ -185,6 +202,36 @@ def main():
         - Maximum kinetic energy depends only on frequency
         - Current proportional to intensity above threshold
         - No electrons emitted below threshold frequency
+
+        **Clinical Applications:**
+        - Scintillator response to ionizing radiation
+        - X-ray tube target electron emission
+        - Radiation detector calibration and efficiency
+        - Quality assurance in medical imaging
+        """)
+
+    # Medical physics materials explanation
+    with st.expander("🏥 Medical Physics Materials Context"):
+        st.markdown("""
+        **Detector Materials:**
+        - **NaI(Tl), CsI(Tl):** Scintillators in gamma cameras and SPECT systems
+        - **CdTe, Si, Ge:** Semiconductor detectors for high-resolution spectroscopy
+        - Work function determines detector efficiency and energy resolution
+
+        **X-ray Tube Materials:**
+        - **Tungsten:** Primary target material for general radiography
+        - **Molybdenum, Rhodium:** Optimized for mammography (K-edge filtering)
+        - Electron emission properties affect X-ray tube performance
+
+        **Tissue & Phantom Materials:**
+        - **Water:** Reference tissue-equivalent material
+        - **PMMA, Aluminum:** Common phantom materials for beam characterization
+        - Used for quality assurance and treatment planning verification
+
+        **Clinical Relevance:**
+        - Photoelectric absorption cross-section ∝ Z³/E³
+        - Explains contrast in CT imaging and mammography
+        - Critical for radiation therapy dose calculations
         """)
 
     # Interactive wavelength calculator
@@ -192,9 +239,11 @@ def main():
 
     wavelength_nm = st.slider(
         "Wavelength (nm)",
-        min_value=100,
-        max_value=1000,
-        value=200
+        min_value=0.01,
+        max_value=1.0,
+        value=0.05,
+        step=0.01,
+        format="%.3f"
     )
 
     # Convert wavelength to energy
@@ -213,7 +262,7 @@ def main():
         st.warning(f"This wavelength is below threshold by {deficit:.2f} eV")
 
     # Historical context
-    with st.expander("🕰️ Historical Development"):
+    with st.expander("🕰️ Historical Development & Medical Applications"):
         st.markdown("""
         **1905: Einstein's Quantum Hypothesis**
         - Proposed that light consists of quanta (photons)
@@ -226,6 +275,13 @@ def main():
 
         **Nobel Prize:** Einstein (1921) "for his services to Theoretical Physics,
         and especially for his discovery of the law of the photoelectric effect"
+
+        **Medical Physics Applications:**
+        - **Radiation Detection:** Scintillators convert X-ray/gamma photons to visible light
+        - **CT Imaging:** Photoelectric absorption dominates at diagnostic energies (<100 keV)
+        - **X-ray Production:** Electron emission from heated filaments and targets
+        - **Quality Control:** Detector calibration using photoelectric principles
+        - **Radiation Therapy:** Understanding dose deposition in tissues
         """)
 
 if __name__ == "__main__":

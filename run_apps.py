@@ -55,8 +55,8 @@ def main():
             print("Press Ctrl+C in this terminal to stop the app.\n")
 
             try:
-                # Run streamlit app
-                cmd = [sys.executable, "-m", "streamlit", "run", app["file"]]
+                # Run streamlit app using uv
+                cmd = ["uv", "run", "streamlit", "run", app["file"]]
                 subprocess.run(cmd)
             except KeyboardInterrupt:
                 print(f"\n{app['name']} stopped.")

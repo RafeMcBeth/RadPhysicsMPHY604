@@ -123,7 +123,7 @@ def create_compton_scattering_plot(incident_energy=1.0, max_angle=180):
         height=500,
         polar=dict(
             radialaxis=dict(title="Energy (MeV)"),
-            angularaxis=dict(title="Scattering Angle (°)"))
+            angularaxis=dict(tickmode="array", tickvals=[0, 30, 60, 90, 120, 150, 180]))
     )
 
     return fig
